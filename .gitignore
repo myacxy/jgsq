@@ -1,5 +1,15 @@
 *.class
 
+# generated files
+bin/
+gen/
+
+#Gradle
+.gradletasknamecache
+.gradle/
+build/
+bin/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -10,3 +20,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*.iml
+
+## Directory-based project format:
+.idea/
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+## File-based project format:
+*.ipr
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
