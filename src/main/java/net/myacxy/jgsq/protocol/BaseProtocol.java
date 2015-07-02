@@ -1,10 +1,12 @@
 package net.myacxy.jgsq.protocol;
 
+import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.io.IOException;
 import java.net.*;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -13,11 +15,13 @@ public abstract class BaseProtocol
 {
     private DatagramSocket socket = null;
     private DatagramPacket packet = null;
-    private byte[] buffer;
+
     protected byte[] response;
     protected String hostName;
     protected InetAddress ipAddress;
     protected int port;
+
+    protected Game game;
 
     public Map<String, String> parameters;
 
@@ -27,15 +31,20 @@ public abstract class BaseProtocol
                                                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                                                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                                                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+    protected DateTime timeOfLastQuery;
 
-    public BaseProtocol()
+    public static int UPDATE_INTERVAL_MINUTES = 5;
+
+    public BaseProtocol(Game game)
     {
+        this.game = game;
         pattern = Pattern.compile(IP_ADDRESS_PATTERN);
         parameters = new HashMap<>();
     }
 
-    public void connect(String ip, Integer port)
+    public boolean connect(String ip, Integer port)
     {
+        // 255.255.255.255:65535 or domain.tld:65535
         if(ip.contains(":"))
         {
             String[] tmp = ip.split(":", 2);
@@ -49,27 +58,42 @@ public abstract class BaseProtocol
             if(port != null) this.port = port;
         } catch (UnknownHostException e) {
             e.printStackTrace();
+            return false;
         }
-
 
         try {
             socket = new DatagramSocket();
-            socket.setSoTimeout(1500);
+            socket.setSoTimeout(10000);
         } catch (SocketException e) {
             e.printStackTrace();
+            return false;
         }
+
+        return socket.;
     }
 
     public void disconnect()
     {
-
+        socket.disconnect();
     }
 
     protected void query(String request)
     {
+        if(timeOfLastQuery != null )
+        {
+            Interval interval = new Interval(timeOfLastQuery, DateTime.now());
+            if(interval.toPeriod().getMinutes() < UPDATE_INTERVAL_MINUTES)
+            {
+                System.out.println(String.format(
+                        "Last update was %d minutes ago. Minimum update interval is %d",
+                        interval.toPeriod().getMinutes(),
+                        UPDATE_INTERVAL_MINUTES));
+                return;
+            }
+        }
         byte[] tmp = request.getBytes();
         int offset = 4;
-        buffer = new byte[tmp.length + offset];
+        byte[] buffer = new byte[tmp.length + offset];
 
         for (int i = 0; i < tmp.length + offset; i++)
         {
@@ -83,20 +107,21 @@ public abstract class BaseProtocol
         } catch (IOException e) {
             e.printStackTrace();
         }
+        timeOfLastQuery = DateTime.now();
     }
 
-    protected void getResponse()
+    protected boolean getResponse()
     {
         response = new byte[65507];
         packet = new DatagramPacket(response, response.length);
         try {
             socket.receive(packet);
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
         } catch (IOException e)
         {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public abstract void updateServerInfo(GameServer server);

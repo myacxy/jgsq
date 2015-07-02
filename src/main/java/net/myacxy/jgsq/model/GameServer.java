@@ -3,14 +3,16 @@ package net.myacxy.jgsq.model;
 import net.myacxy.jgsq.protocol.BaseProtocol;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GameServer
 {
     protected BaseProtocol protocol;
-    protected GameType type;
 
+    public String ip;
+    public int port;
     public boolean isOnline;
-    public boolean isPassworded;
+    public boolean isPasswordProtected;
     public String name;
     public int currentClients;
     public int maxClients;
@@ -18,18 +20,41 @@ public class GameServer
 
     public ArrayList<Player> players;
 
-    public GameServer(String ip, int port, BaseProtocol protocol, GameType type)
+    public Map<String, String> parameters;
+
+    public GameServer(String ip, int port, BaseProtocol protocol)
     {
+        this.ip = ip;
+        this.port = port;
         this.protocol = protocol;
-        this.type = type;
 
         players = new ArrayList<>();
+    }
 
-        protocol.connect(ip, port);
+    public GameServer(BaseProtocol protocol)
+    {
+        this.protocol = protocol;
+        players = new ArrayList<>();
+    }
+
+    public boolean connect()
+    {
+        return ip.length() > 0 && connect(ip, port);
+    }
+
+    public boolean connect(String ip, int port)
+    {
+        return isOnline = protocol.connect(ip, port);
+    }
+
+    public void disconnect()
+    {
+        isOnline = false;
+        protocol.disconnect();
     }
 
     public void update()
     {
         protocol.updateServerInfo(this);
     }
-}
+} // GameServer

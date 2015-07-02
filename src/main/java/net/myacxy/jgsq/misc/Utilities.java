@@ -1,5 +1,9 @@
 package net.myacxy.jgsq.misc;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Utilities
 {
     /**
@@ -8,8 +12,14 @@ public class Utilities
      * @param coloredString
      * @return uncolored string
      */
-    public static String RemoveColorCode(String coloredString)
+    public static String removeColorCode(String coloredString)
     {
         return coloredString.replaceAll("(\\^\\d)|(\\$\\d)", "");
+    }
+
+    public static Path getAbsoluteResourceFilePath(String fileName)
+    {
+        URL resource = Utilities.class.getClassLoader().getResource(fileName);
+        return Paths.get(resource.getPath().substring(1));
     }
 }

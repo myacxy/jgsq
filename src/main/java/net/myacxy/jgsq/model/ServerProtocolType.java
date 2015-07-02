@@ -11,18 +11,6 @@ public enum ServerProtocolType
     /// </summary>
     Doom3,
     /// <summary>
-    /// Half Life and HL-Mods
-    /// </summary>
-    HalfLife,
-    /// <summary>
-    /// Quake3 and Q3-Mods
-    /// </summary>
-    Quake3,
-    /// <summary>
-    /// Half Life Source
-    /// </summary>
-    Source,
-    /// <summary>
     /// Game Spy v1
     /// </summary>
     GameSpy,
@@ -30,6 +18,18 @@ public enum ServerProtocolType
     /// Game Spy v2
     /// </summary>
     GameSpy2,
+    /// <summary>
+    /// Half Life and HL-Mods
+    /// </summary>
+    HalfLife,
+    /// <summary>
+    /// Half Life Source
+    /// </summary>
+    Source,
+    /// <summary>
+    /// Quake3 and Q3-Mods
+    /// </summary>
+    Quake3,
     /// <summary>
     /// Unknown
     /// </summary>
