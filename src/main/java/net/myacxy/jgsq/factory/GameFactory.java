@@ -3,6 +3,7 @@ package net.myacxy.jgsq.factory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.myacxy.jgsq.model.Game;
+import net.myacxy.jgsq.model.ServerProtocolType;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -73,4 +74,24 @@ public class GameFactory
 
         return supportedGames = games;
     } // loadConfig
+
+    public Map<String, Game> getSupportedGames()
+    {
+        return supportedGames;
+    }
+
+    /**
+     *
+     * @param type server protocol type to be queried
+     * @return supported games filtered by server protocol type
+     */
+    public Map<String, Game> getSupportedGames(ServerProtocolType type)
+    {
+        if(supportedGames == null) return null;
+        Map<String, Game> filteredGames = new HashMap<>();
+        supportedGames.values().parallelStream().forEach(game -> {
+            if(game.serverProtocolType.equals(type)) filteredGames.put(game.name, game);
+        });
+        return filteredGames;
+    }
 } // GameServerFactory

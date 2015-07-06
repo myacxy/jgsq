@@ -1,6 +1,5 @@
 package net.myacxy.jgsq.factory;
 
-import junit.framework.TestCase;
 import net.myacxy.jgsq.misc.Utilities;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.ServerProtocolType;
@@ -8,24 +7,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.*;
 
-public class GameFactoryTest extends TestCase {
-
+public class GameFactoryTest
+{
     private GameFactory factory;
+
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         factory = new GameFactory();
     }
 
     @Test
-    public void testGetGame() throws Exception
+    public void testGetGame()
     {
-        testLoadConfig();
+        loadConfig();
 
         Game jk2 = factory.getGame("JK2");
         Game jediKnight2 = factory.getGame("Jedi Knight 2");
@@ -51,7 +48,7 @@ public class GameFactoryTest extends TestCase {
     }
 
     @Test
-    public void testLoadConfig() throws Exception
+    public void loadConfig()
     {
         String fileName = "games.conf.json";
         factory.supportedGames = factory.loadConfig(Utilities.getAbsoluteResourceFilePath(fileName));
@@ -65,4 +62,13 @@ public class GameFactoryTest extends TestCase {
         assertEquals(jk2.serverProtocolType, ServerProtocolType.Quake3);
         assertEquals(cod.defaultPort, 28960);
     }
-}
+
+    @Test
+    public void getSupportedGames()
+    {
+        loadConfig();
+
+        assertTrue(factory.getSupportedGames(ServerProtocolType.Ase).size() == 0);
+        assertTrue(factory.getSupportedGames(ServerProtocolType.Quake3).size() == 3);
+    }
+} // GameFactoryTest

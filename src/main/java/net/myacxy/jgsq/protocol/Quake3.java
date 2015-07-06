@@ -5,8 +5,7 @@ import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
 import net.myacxy.jgsq.model.Player;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,16 +23,10 @@ public class Quake3 extends BaseProtocol
 
     @Override
     public void updateServerInfo(GameServer server) {
-        query("getstatus");
-        getResponse();
+        if(response == null) return;
+
         String tmp = new String(response);
-//        byte[] fileBytes = new byte[0];
-//        try {
-//            fileBytes = Files.readAllBytes(Utilities.getAbsoluteResourceFilePath("response.example"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String tmp = new String(fileBytes);
+        server.players = new ArrayList<>();
 
         if(tmp.contains("disconnect"))
         {
@@ -44,6 +37,8 @@ public class Quake3 extends BaseProtocol
         String[] lines = tmp.split("\\n");
 
         System.out.println(lines[1]);
+
+        // parameters
         StringTokenizer tokens = new StringTokenizer(lines[1],"\\");
         while(tokens.hasMoreTokens())
         {
@@ -52,23 +47,28 @@ public class Quake3 extends BaseProtocol
             parameters.put(key, value);
         }
 
+        // players
         for(int i = 2; i < lines.length - 1; i++)
         {
             if(lines[i].length() == 0) continue;
-            System.out.println(parsePlayer(lines[i]));
+            server.players.add(parsePlayer(lines[i]));
+            System.out.println(server.players.get(i - 2));
         }
 
         updateParameters(server);
-    }
+    } // updateServerInfo
 
     private void updateParameters(GameServer server)
     {
-        server.name = parameters.get("sv_hostname");
+        server.parameters = parameters;
+
+        server.coloredHostName = parameters.get("sv_hostname");
+        server.hostName = Utilities.removeColorCode(server.coloredHostName);
         server.map = parameters.get("map");
         server.isPasswordProtected = Boolean.parseBoolean(parameters.get("g_needpass"));
         server.maxClients = Integer.parseInt(parameters.get("sv_maxclients"));
         server.currentClients = server.players.size();
-    }
+    } // updateParameters
 
     protected Player parsePlayer(String line)
     {
@@ -83,5 +83,5 @@ public class Quake3 extends BaseProtocol
             return new Player(name, coloredName, score, ping);
         }
         return null;
-    }
-}
+    } // parsePlayer
+} // Quake3

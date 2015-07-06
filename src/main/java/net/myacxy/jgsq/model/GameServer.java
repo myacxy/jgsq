@@ -3,23 +3,23 @@ package net.myacxy.jgsq.model;
 import net.myacxy.jgsq.protocol.BaseProtocol;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GameServer
 {
     protected BaseProtocol protocol;
 
+    public int currentClients;
     public String ip;
-    public int port;
     public boolean isOnline;
     public boolean isPasswordProtected;
-    public String name;
-    public int currentClients;
-    public int maxClients;
     public String map;
-
+    public int maxClients;
+    public String hostName;
+    public String coloredHostName;
     public ArrayList<Player> players;
-
+    public int port;
     public Map<String, String> parameters;
 
     public GameServer(String ip, int port, BaseProtocol protocol)
@@ -29,12 +29,14 @@ public class GameServer
         this.protocol = protocol;
 
         players = new ArrayList<>();
+        parameters = new HashMap<>();
     }
 
     public GameServer(BaseProtocol protocol)
     {
         this.protocol = protocol;
         players = new ArrayList<>();
+        parameters = new HashMap<>();
     }
 
     public boolean connect()
@@ -44,7 +46,8 @@ public class GameServer
 
     public boolean connect(String ip, int port)
     {
-        return isOnline = protocol.connect(ip, port);
+        protocol.connect(ip, port);
+        return true;
     }
 
     public void disconnect()
@@ -56,5 +59,10 @@ public class GameServer
     public void update()
     {
         protocol.updateServerInfo(this);
+    }
+
+    public BaseProtocol getProtocol()
+    {
+        return protocol;
     }
 } // GameServer
