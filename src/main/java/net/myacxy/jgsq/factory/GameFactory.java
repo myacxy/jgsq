@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.ServerProtocolType;
 
+import javax.tools.JavaCompiler;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -89,9 +90,18 @@ public class GameFactory
     {
         if(supportedGames == null) return null;
         Map<String, Game> filteredGames = new HashMap<>();
-        supportedGames.values().parallelStream().forEach(game -> {
+
+        // JDK8
+//        supportedGames.values().parallelStream().forEach(game -> {
+//            if(game.serverProtocolType.equals(type)) filteredGames.put(game.name, game);
+//        });
+
+        // JDK7
+        for(Game game : supportedGames.values())
+        {
             if(game.serverProtocolType.equals(type)) filteredGames.put(game.name, game);
-        });
+        }
+
         return filteredGames;
     }
 } // GameServerFactory
