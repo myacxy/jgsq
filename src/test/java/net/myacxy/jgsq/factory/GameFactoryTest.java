@@ -29,6 +29,8 @@ public class GameFactoryTest
         Game swjk2jo = factory.supportedGames.get("Star Wars Jedi Knight 2: Jedi Outcast");
         Game q3 = factory.getGame("Q3");
         Game callOfDuty = factory.getGame("Call of Duty");
+        Game cod = factory.getGame("cod");
+        Game CoD = factory.getGame("CoD");
 
         // compare jk2, jediKnight2 and swjk2jo
         assertEquals(jk2.alternativeName, "Jedi Knight 2");
@@ -45,6 +47,11 @@ public class GameFactoryTest
         assertEquals(callOfDuty.defaultPort, 28960);
         assertEquals(jediKnight2.defaultPort, 28070);
         assertEquals(callOfDuty.defaultPort, q3.defaultPort);
+
+        // check case
+        assertNotNull(cod);
+        assertEquals(cod, CoD);
+        assertEquals(cod, callOfDuty);
     }
 
     @Test

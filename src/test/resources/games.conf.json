@@ -16,7 +16,7 @@
   {
     "game"              : "Call of Duty",
     "game_alternative"  : "Call of Duty",
-    "game_abbreviation" : "cod",
+    "game_abbreviation" : "CoD",
     "server_protocol"   : "Quake3",
     "default_port"      : 28960
   }

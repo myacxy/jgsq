@@ -38,12 +38,12 @@ public class GameFactory
         for (Game game : supportedGames.values())
         {
             // query matches alternative name
-            if (game.alternativeName.equals(name))
+            if (game.alternativeName.equalsIgnoreCase(name))
             {
                 return game;
             }
             // query matches abbreviated name
-            else if(game.abbreviatedName.equals(name))
+            else if(game.abbreviatedName.equalsIgnoreCase(name))
             {
                 return game;
             }
@@ -76,11 +76,6 @@ public class GameFactory
         return supportedGames = games;
     } // loadConfig
 
-    public Map<String, Game> getSupportedGames()
-    {
-        return supportedGames;
-    }
-
     /**
      *
      * @param type server protocol type to be queried
@@ -103,5 +98,10 @@ public class GameFactory
         }
 
         return filteredGames;
+    }
+
+    public Map<String, Game> getSupportedGames()
+    {
+        return supportedGames;
     }
 } // GameServerFactory

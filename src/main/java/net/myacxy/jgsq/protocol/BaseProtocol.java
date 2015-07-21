@@ -40,6 +40,7 @@ public abstract class BaseProtocol
 
     public void connect(String ip, Integer port)
     {
+        // ip contains port?
         if(ip.contains(":"))
         {
             String[] tmp = ip.split(":", 2);
@@ -58,7 +59,7 @@ public abstract class BaseProtocol
 
         try {
             socket = new DatagramSocket();
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(3000);
         } catch (SocketException e) {
             e.printStackTrace();
         }

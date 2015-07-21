@@ -27,6 +27,6 @@ public class Player
     @Override
     public String toString()
     {
-        return String.format("(%s\t%s\t%s)", score, ping, coloredName);
+        return String.format("(%s, %s, %s)", score, ping, coloredName);
     }
 }

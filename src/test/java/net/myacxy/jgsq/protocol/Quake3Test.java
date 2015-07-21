@@ -27,7 +27,6 @@ public class Quake3Test {
         gf.loadConfig(Utilities.getAbsoluteResourceFilePath("games.conf.json"));
         Game jk2 = gf.getGame("JK2");
         protocol = new Quake3(jk2);
-        server = new GameServer(protocol);
     }
 
     @After
@@ -40,6 +39,7 @@ public class Quake3Test {
     @Ignore("avoid querying the server too frequently")
     public void queryRealServer()
     {
+        server = new GameServer(protocol);
         server.connect("myacxy.net", 28070);
         byte[] response = protocol.query("getstatus", false);
         assertNotNull(response);
@@ -54,6 +54,8 @@ public class Quake3Test {
     @Test
     public void queryWithFakeResponse()
     {
+        server = new GameServer("85.25.149.26", 28070, protocol);
+
         try {
             protocol.response = Files.readAllBytes(Utilities.getAbsoluteResourceFilePath("response.example"));
         } catch (IOException e) {

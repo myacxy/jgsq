@@ -64,7 +64,7 @@ public class Quake3 extends BaseProtocol
 
         server.coloredHostName = parameters.get("sv_hostname");
         server.hostName = Utilities.removeColorCode(server.coloredHostName);
-        server.map = parameters.get("map");
+        server.map = parameters.get("mapname");
         server.isPasswordProtected = Boolean.parseBoolean(parameters.get("g_needpass"));
         server.maxClients = Integer.parseInt(parameters.get("sv_maxclients"));
         server.currentClients = server.players.size();
