@@ -1,8 +1,6 @@
-package net.myacxy.jgsq.misc;
+package net.myacxy.jgsq.utils;
 
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
 public class Utilities
 {
@@ -17,9 +15,8 @@ public class Utilities
         return coloredString.replaceAll("(\\^\\d)|(\\$\\d)", "");
     }
 
-    public static Path getAbsoluteResourceFilePath(String fileName)
+    public static InputStream getResourceAsStream(String fileName)
     {
-        URL resource = Utilities.class.getClassLoader().getResource(fileName);
-        return Paths.get(resource.getPath().substring(1));
+        return Utilities.class.getClassLoader().getResourceAsStream(fileName);
     }
 }

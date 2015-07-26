@@ -59,7 +59,7 @@ public abstract class BaseProtocol
 
         try {
             socket = new DatagramSocket();
-            socket.setSoTimeout(3000);
+            socket.setSoTimeout(5000);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public abstract class BaseProtocol
         }
     }
 
-    protected byte[] query(String request, boolean forceUpdate)
+    public byte[] query(String request, boolean forceUpdate)
     {
         if(!forceUpdate && timeOfLastQuery != null)
         {
@@ -98,10 +98,14 @@ public abstract class BaseProtocol
         }
 
         packet = new DatagramPacket(buffer, buffer.length, ipAddress, port);
-        try {
+        try
+        {
             socket.send(packet);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
+            return null;
         }
         timeOfLastQuery = DateTime.now();
 
@@ -112,9 +116,15 @@ public abstract class BaseProtocol
     {
         response = new byte[65507];
         packet = new DatagramPacket(response, response.length);
-        try {
+        try
+        {
             socket.receive(packet);
-        } catch (IOException e)
+        }
+        catch (SocketTimeoutException e)
+        {
+            return null;
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
             return null;
@@ -124,3 +134,5 @@ public abstract class BaseProtocol
 
     public abstract void updateServerInfo(GameServer server);
 } // BaseProtocol
+
+

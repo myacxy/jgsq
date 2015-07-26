@@ -5,11 +5,7 @@ import com.google.gson.GsonBuilder;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.ServerProtocolType;
 
-import javax.tools.JavaCompiler;
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,24 +50,26 @@ public class GameFactory
     /**
      * Checks a JSON config file for all known game type configurations
      *
-     * @param path absolute Path of the resource file
+     * @param fileStream inputStream of the resource file
      * @return supported games
      */
-    public Map<String, Game> loadConfig(Path path)
+    public Map<String, Game> loadConfig(InputStream fileStream)
     {
         Gson gson = new GsonBuilder().create();
         Map<String, Game> games = new HashMap<>();
 
-        try(Reader reader = Files.newBufferedReader(path))
-        {
+        try {
+            Reader reader = new InputStreamReader(fileStream);
             Game[] gamesArray = gson.fromJson(reader, Game[].class);
 
             for (Game game : gamesArray) {
                 games.put(game.name, game);
             }
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return supportedGames = games;
     } // loadConfig

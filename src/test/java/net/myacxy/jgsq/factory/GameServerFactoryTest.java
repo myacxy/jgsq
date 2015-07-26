@@ -1,6 +1,6 @@
 package net.myacxy.jgsq.factory;
 
-import net.myacxy.jgsq.misc.Utilities;
+import net.myacxy.jgsq.utils.Utilities;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
 import net.myacxy.jgsq.protocol.Quake3;
@@ -19,7 +19,7 @@ public class GameServerFactoryTest
     public void setUp()
     {
         gf  = new GameFactory();
-        gf.loadConfig(Utilities.getAbsoluteResourceFilePath("games.conf.json"));
+        gf.loadConfig(Utilities.getResourceAsStream("games.conf.json"));
         gsf = new GameServerFactory();
     }
 

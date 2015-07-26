@@ -14,7 +14,7 @@ public class GameServer
     public String ip;
     public boolean isOnline;
     public boolean isPasswordProtected;
-    public String map;
+    public String mapName;
     public int maxClients;
     public String hostName;
     public String coloredHostName;
@@ -58,7 +58,10 @@ public class GameServer
 
     public void update()
     {
-        protocol.updateServerInfo(this);
+        if(protocol.query("getstatus", true) != null)
+        {
+            protocol.updateServerInfo(this);
+        }
     }
 
     public BaseProtocol getProtocol()

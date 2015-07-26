@@ -1,9 +1,8 @@
 package net.myacxy.jgsq.factory;
 
-import net.myacxy.jgsq.misc.Utilities;
+import net.myacxy.jgsq.utils.Utilities;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.ServerProtocolType;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +57,7 @@ public class GameFactoryTest
     public void loadConfig()
     {
         String fileName = "games.conf.json";
-        factory.supportedGames = factory.loadConfig(Utilities.getAbsoluteResourceFilePath(fileName));
+        factory.supportedGames = factory.loadConfig(Utilities.getResourceAsStream(fileName));
 
         assertEquals(factory.supportedGames.size(), 3);
 

@@ -1,6 +1,6 @@
 package net.myacxy.jgsq.protocol;
 
-import net.myacxy.jgsq.misc.Utilities;
+import net.myacxy.jgsq.utils.Utilities;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
 import net.myacxy.jgsq.model.Player;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Quake3 extends BaseProtocol
 {
     private Pattern pattern;
-    private final String PLAYER_REGEX = "(?<score>.+) (?<ping>.+) \"(?<name>.+)\"";
+    private final String PLAYER_REGEX = "(\\d+) (\\d+) \"(.*)\"";
 
     public Quake3(Game game)
     {
@@ -64,7 +64,7 @@ public class Quake3 extends BaseProtocol
 
         server.coloredHostName = parameters.get("sv_hostname");
         server.hostName = Utilities.removeColorCode(server.coloredHostName);
-        server.map = parameters.get("mapname");
+        server.mapName = parameters.get("mapname");
         server.isPasswordProtected = Boolean.parseBoolean(parameters.get("g_needpass"));
         server.maxClients = Integer.parseInt(parameters.get("sv_maxclients"));
         server.currentClients = server.players.size();
@@ -76,10 +76,10 @@ public class Quake3 extends BaseProtocol
 
         if(matcher.find())
         {
-            String coloredName = matcher.group("name");
+            int score = Integer.parseInt(matcher.group(1));
+            int ping = Integer.parseInt(matcher.group(2));
+            String coloredName = matcher.group(3);
             String name = Utilities.removeColorCode(coloredName);
-            int score = Integer.parseInt(matcher.group("score"));
-            int ping =Integer.parseInt(matcher.group("ping"));
             return new Player(name, coloredName, score, ping);
         }
         return null;

@@ -1,17 +1,19 @@
 package net.myacxy.jgsq.protocol;
 
 import net.myacxy.jgsq.factory.GameFactory;
-import net.myacxy.jgsq.misc.Utilities;
+import net.myacxy.jgsq.utils.Utilities;
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
 import net.myacxy.jgsq.model.Player;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +26,7 @@ public class Quake3Test {
     public void setUp()
     {
         GameFactory gf = new GameFactory();
-        gf.loadConfig(Utilities.getAbsoluteResourceFilePath("games.conf.json"));
+        gf.loadConfig(Utilities.getResourceAsStream("games.conf.json"));
         Game jk2 = gf.getGame("JK2");
         protocol = new Quake3(jk2);
     }
@@ -36,19 +38,20 @@ public class Quake3Test {
     }
 
     @Test
-    @Ignore("avoid querying the server too frequently")
+    //@Ignore("avoid querying the server too frequently")
     public void queryRealServer()
     {
         server = new GameServer(protocol);
         server.connect("myacxy.net", 28070);
-        byte[] response = protocol.query("getstatus", false);
-        assertNotNull(response);
-        assertEquals(server.parameters.size(), 0);
+        if(protocol.query("getstatus", false) != null)
+        {
+            assertEquals(server.parameters.size(), 0);
 
-        protocol.updateServerInfo(server);
-        assertEquals(server.hostName, "v1.03");
-        assertTrue(server.parameters.size() > 0);
-        assertEquals(server.hostName, server.parameters.get("sv_hostname"));
+            server.update();
+            assertEquals(server.hostName, "v1.03");
+            assertTrue(server.parameters.size() > 0);
+            assertEquals(server.hostName, server.parameters.get("sv_hostname"));
+        }
     }
 
     @Test
@@ -57,7 +60,9 @@ public class Quake3Test {
         server = new GameServer("85.25.149.26", 28070, protocol);
 
         try {
-            protocol.response = Files.readAllBytes(Utilities.getAbsoluteResourceFilePath("response.example"));
+            URL resource = Utilities.class.getClassLoader().getResource("response.example");
+            Path path = Paths.get(resource.getPath().substring(1));
+            protocol.response = Files.readAllBytes(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
