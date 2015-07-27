@@ -40,7 +40,7 @@ public abstract class BaseProtocol
 
     public void connect(String ip, Integer port)
     {
-        // ip contains port?
+        // ipAddress contains port?
         if(ip.contains(":"))
         {
             String[] tmp = ip.split(":", 2);

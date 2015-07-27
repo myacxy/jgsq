@@ -1,12 +1,20 @@
 package net.myacxy.jgsq.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Player
 {
+    @SerializedName("name")
     public String name;
+    @SerializedName("colored_name")
     public String coloredName;
+    @SerializedName("score")
     public int score;
+    @SerializedName("deaths")
     public int deaths;
+    @SerializedName("ping")
     public int ping;
+    @SerializedName("time")
     public int time;
 
     public Player(String name, int score, int ping)

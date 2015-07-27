@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 public class Quake3Test {
 
+    private Game jk2;
     private Quake3 protocol;
     private GameServer server;
 
@@ -27,7 +28,7 @@ public class Quake3Test {
     {
         GameFactory gf = new GameFactory();
         gf.loadConfig(Utilities.getResourceAsStream("games.conf.json"));
-        Game jk2 = gf.getGame("JK2");
+        jk2 = gf.getGame("JK2");
         protocol = new Quake3(jk2);
     }
 
@@ -41,7 +42,7 @@ public class Quake3Test {
     //@Ignore("avoid querying the server too frequently")
     public void queryRealServer()
     {
-        server = new GameServer(protocol);
+        server = new GameServer(jk2, protocol);
         server.connect("myacxy.net", 28070);
         if(protocol.query("getstatus", false) != null)
         {
@@ -57,7 +58,7 @@ public class Quake3Test {
     @Test
     public void queryWithFakeResponse()
     {
-        server = new GameServer("85.25.149.26", 28070, protocol);
+        server = new GameServer(jk2, "85.25.149.26", 28070, protocol);
 
         try {
             URL resource = Utilities.class.getClassLoader().getResource("response.example");

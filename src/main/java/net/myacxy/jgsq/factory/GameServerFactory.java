@@ -25,7 +25,7 @@ public class GameServerFactory
             case Source:
                 throw new NotImplementedException();
             case Quake3:
-                return new GameServer(new Quake3(game));
+                return new GameServer(game, new Quake3(game));
             default:
                 return null;
         }
