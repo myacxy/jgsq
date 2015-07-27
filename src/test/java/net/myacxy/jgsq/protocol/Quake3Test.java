@@ -68,6 +68,7 @@ public class Quake3Test {
             e.printStackTrace();
         }
 
+        server.connect();
         protocol.updateServerInfo(server);
         assertTrue(server.hostName.contains("TFJ"));
         assertEquals(server.players.size(), 5);

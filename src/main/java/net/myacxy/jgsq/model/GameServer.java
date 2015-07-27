@@ -68,9 +68,12 @@ public class GameServer
         return ipAddress.length() > 0 && connect(ipAddress, port);
     }
 
-    public boolean connect(String ip, int port)
+    public boolean connect(String ipAddress, int port)
     {
-        protocol.connect(ip, port);
+        this.ipAddress = ipAddress;
+        this.port = port;
+
+        protocol.connect(ipAddress, port);
         return true;
     }
 

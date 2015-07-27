@@ -62,6 +62,10 @@ public class Quake3 extends BaseProtocol
     {
         server.parameters = parameters;
 
+        server.isOnline = true;
+        server.ipAddress = ipAddress.getHostAddress();
+        server.port = port;
+
         server.coloredHostName = parameters.get("sv_hostname");
         server.hostName = Utilities.removeColorCode(server.coloredHostName);
         server.mapName = parameters.get("mapname");
