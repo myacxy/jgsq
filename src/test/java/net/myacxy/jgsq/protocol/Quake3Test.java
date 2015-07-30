@@ -7,6 +7,7 @@ import net.myacxy.jgsq.model.GameServer;
 import net.myacxy.jgsq.model.Player;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -39,12 +40,12 @@ public class Quake3Test {
     }
 
     @Test
-    //@Ignore("avoid querying the server too frequently")
+    @Ignore("avoid querying the server too frequently")
     public void queryRealServer()
     {
         server = new GameServer(jk2, protocol);
         server.connect("myacxy.net", 28070);
-        if(protocol.query("getstatus", false) != null)
+        if(protocol.query("getstatus") != null)
         {
             assertEquals(server.parameters.size(), 0);
 
@@ -53,6 +54,14 @@ public class Quake3Test {
             assertTrue(server.parameters.size() > 0);
             assertEquals(server.hostName, server.parameters.get("sv_hostname"));
         }
+    }
+
+    @Test
+    public void queryWrongAddress()
+    {
+        server = new GameServer(jk2, protocol);
+        // wrong port
+        server.connect("myacxy.net", 28071);
     }
 
     @Test

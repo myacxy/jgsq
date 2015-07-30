@@ -85,7 +85,7 @@ public class GameServer
 
     public void update()
     {
-        if(protocol.query("getstatus", true) != null)
+        if(protocol.query("getstatus") != null)
         {
             protocol.updateServerInfo(this);
         }

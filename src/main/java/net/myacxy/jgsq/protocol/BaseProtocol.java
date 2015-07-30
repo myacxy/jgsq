@@ -2,8 +2,6 @@ package net.myacxy.jgsq.protocol;
 
 import net.myacxy.jgsq.model.Game;
 import net.myacxy.jgsq.model.GameServer;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 
 import java.io.IOException;
 import java.net.*;
@@ -27,9 +25,6 @@ public abstract class BaseProtocol
     protected int port;
     protected Game game;
     protected Map<String, String> parameters;
-    protected DateTime timeOfLastQuery;
-
-    protected static int UPDATE_INTERVAL_MINUTES = 5;
 
     public BaseProtocol(Game game)
     {
@@ -40,14 +35,6 @@ public abstract class BaseProtocol
 
     public void connect(String ip, Integer port)
     {
-        // ipAddress contains port?
-        if(ip.contains(":"))
-        {
-            String[] tmp = ip.split(":", 2);
-            if(pattern.matcher(tmp[0]).matches()) ip = tmp[0];
-            this.port = Integer.parseInt(tmp[1]);
-        }
-
         try {
             ipAddress = InetAddress.getByName(ip);
             hostName = ipAddress.getHostName();
@@ -73,20 +60,9 @@ public abstract class BaseProtocol
         }
     }
 
-    public byte[] query(String request, boolean forceUpdate)
+    public byte[] query(String request)
     {
-        if(!forceUpdate && timeOfLastQuery != null)
-        {
-            Interval interval = new Interval(timeOfLastQuery, DateTime.now());
-            if(interval.toPeriod().getMinutes() < UPDATE_INTERVAL_MINUTES)
-            {
-                System.out.println(String.format(
-                        "Last update was %d minutes ago. Minimum update interval is %d",
-                        interval.toPeriod().getMinutes(),
-                        UPDATE_INTERVAL_MINUTES));
-                return response;
-            }
-        }
+
         byte[] tmp = request.getBytes();
         int offset = 4;
         byte[] buffer = new byte[tmp.length + offset];
@@ -107,7 +83,6 @@ public abstract class BaseProtocol
             e.printStackTrace();
             return null;
         }
-        timeOfLastQuery = DateTime.now();
 
         return getResponse();
     } // query
