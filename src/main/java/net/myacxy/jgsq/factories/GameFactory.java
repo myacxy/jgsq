@@ -1,9 +1,9 @@
-package net.myacxy.jgsq.factory;
+package net.myacxy.jgsq.factories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.ServerProtocolType;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.helpers.ServerProtocolType;
 
 import java.io.*;
 import java.util.HashMap;
@@ -69,7 +69,6 @@ public class GameFactory
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return supportedGames = games;
     } // loadConfig

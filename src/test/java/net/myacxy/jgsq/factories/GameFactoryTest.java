@@ -1,8 +1,8 @@
-package net.myacxy.jgsq.factory;
+package net.myacxy.jgsq.factories;
 
 import net.myacxy.jgsq.utils.Utilities;
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.ServerProtocolType;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.helpers.ServerProtocolType;
 import org.junit.Before;
 import org.junit.Test;
 

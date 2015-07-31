@@ -1,10 +1,11 @@
-package net.myacxy.jgsq.protocol;
+package net.myacxy.jgsq.protocols;
 
-import net.myacxy.jgsq.factory.GameFactory;
+import net.myacxy.jgsq.factories.GameFactory;
+import net.myacxy.jgsq.helpers.ServerResponseStatus;
 import net.myacxy.jgsq.utils.Utilities;
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.GameServer;
-import net.myacxy.jgsq.model.Player;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.models.GameServer;
+import net.myacxy.jgsq.models.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 public class Quake3Test {
 
     private Game jk2;
-    private Quake3 protocol;
+    private Quake3 quake3Protocol;
     private GameServer server;
 
     @Before
@@ -30,7 +31,7 @@ public class Quake3Test {
         GameFactory gf = new GameFactory();
         gf.loadConfig(Utilities.getResourceAsStream("games.conf.json"));
         jk2 = gf.getGame("JK2");
-        protocol = new Quake3(jk2);
+        quake3Protocol = new Quake3(jk2);
     }
 
     @After
@@ -40,12 +41,12 @@ public class Quake3Test {
     }
 
     @Test
-    @Ignore("avoid querying the server too frequently")
+    //@Ignore("avoid querying the server too frequently")
     public void queryRealServer()
     {
-        server = new GameServer(jk2, protocol);
+        server = new GameServer(jk2, quake3Protocol);
         server.connect("myacxy.net", 28070);
-        if(protocol.query("getstatus") != null)
+        if(quake3Protocol.query("getstatus") == ServerResponseStatus.OK)
         {
             assertEquals(server.parameters.size(), 0);
 
@@ -59,26 +60,34 @@ public class Quake3Test {
     @Test
     public void queryWrongAddress()
     {
-        server = new GameServer(jk2, protocol);
-        // wrong port
-        server.connect("myacxy.net", 28071);
+        server = new GameServer(jk2, quake3Protocol);
+        // valid address + wrong port
+        assertEquals(server.connect("myacxy.net", 28071), ServerResponseStatus.Connected);
+        assertNotEquals(server.update(), ServerResponseStatus.OK);
+
+        // valid address + port out of range
+        assertEquals(server.connect("myacxy.net", 99999), ServerResponseStatus.IllegalArgumentException);
+        assertEquals(server.update(), ServerResponseStatus.IllegalArgumentException);
+
+        // invalid address + valid port
+        assertEquals(server.connect("myacxy.netx", 28070), ServerResponseStatus.UnknownHostException);
     }
 
     @Test
     public void queryWithFakeResponse()
     {
-        server = new GameServer(jk2, "85.25.149.26", 28070, protocol);
+        server = new GameServer(jk2, "85.25.149.26", 28070, quake3Protocol);
 
         try {
             URL resource = Utilities.class.getClassLoader().getResource("response.example");
             Path path = Paths.get(resource.getPath().substring(1));
-            protocol.response = Files.readAllBytes(path);
+            quake3Protocol.response = new String(Files.readAllBytes(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         server.connect();
-        protocol.updateServerInfo(server);
+        quake3Protocol.updateServerInfo(server);
         assertTrue(server.hostName.contains("TFJ"));
         assertEquals(server.players.size(), 5);
 

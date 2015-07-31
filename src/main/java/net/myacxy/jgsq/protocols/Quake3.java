@@ -1,9 +1,9 @@
-package net.myacxy.jgsq.protocol;
+package net.myacxy.jgsq.protocols;
 
 import net.myacxy.jgsq.utils.Utilities;
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.GameServer;
-import net.myacxy.jgsq.model.Player;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.models.GameServer;
+import net.myacxy.jgsq.models.Player;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -23,18 +23,14 @@ public class Quake3 extends BaseProtocol
 
     @Override
     public void updateServerInfo(GameServer server) {
-        if(response == null) return;
-
-        String tmp = new String(response);
-        server.players = new ArrayList<>();
-
-        if(tmp.contains("disconnect"))
+        if(response == null || response.contains("disconnect"))
         {
             server.isOnline = false;
             return;
         }
 
-        String[] lines = tmp.split("\\n");
+        server.players = new ArrayList<>();
+        String[] lines = response.split("\\n");
 
         System.out.println(lines[1]);
 

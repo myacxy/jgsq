@@ -1,9 +1,9 @@
-package net.myacxy.jgsq.factory;
+package net.myacxy.jgsq.factories;
 
 import net.myacxy.jgsq.utils.Utilities;
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.GameServer;
-import net.myacxy.jgsq.protocol.Quake3;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.models.GameServer;
+import net.myacxy.jgsq.protocols.Quake3;
 import org.junit.Before;
 import org.junit.Test;
 

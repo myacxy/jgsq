@@ -1,7 +1,8 @@
-package net.myacxy.jgsq.protocol;
+package net.myacxy.jgsq.protocols;
 
-import net.myacxy.jgsq.model.Game;
-import net.myacxy.jgsq.model.GameServer;
+import net.myacxy.jgsq.helpers.ServerResponseStatus;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.models.GameServer;
 
 import java.io.IOException;
 import java.net.*;
@@ -19,12 +20,14 @@ public abstract class BaseProtocol
             "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
             "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    protected byte[] response;
+    protected String response;
     protected String hostName;
     protected InetAddress ipAddress;
     protected int port;
     protected Game game;
     protected Map<String, String> parameters;
+    protected int timeout = 1500;
+    protected ServerResponseStatus responseStatus;
 
     public BaseProtocol(Game game)
     {
@@ -33,23 +36,24 @@ public abstract class BaseProtocol
         parameters = new HashMap<>();
     }
 
-    public void connect(String ip, Integer port)
+    public ServerResponseStatus connect(String ip, Integer port)
     {
         try {
             ipAddress = InetAddress.getByName(ip);
             hostName = ipAddress.getHostName();
             if(port != null) this.port = port;
+            if(port < 0 || port > 65536) return responseStatus = ServerResponseStatus.IllegalArgumentException;
         } catch (UnknownHostException e) {
-            e.printStackTrace();
-            return;
+            return responseStatus = ServerResponseStatus.UnknownHostException;
         }
 
         try {
             socket = new DatagramSocket();
-            socket.setSoTimeout(5000);
+            socket.setSoTimeout(timeout);
         } catch (SocketException e) {
-            e.printStackTrace();
+            return responseStatus = ServerResponseStatus.SocketException;
         }
+        return responseStatus = ServerResponseStatus.Connected;
     } // connect
 
     public void disconnect()
@@ -60,9 +64,8 @@ public abstract class BaseProtocol
         }
     }
 
-    public byte[] query(String request)
+    public ServerResponseStatus query(String request)
     {
-
         byte[] tmp = request.getBytes();
         int offset = 4;
         byte[] buffer = new byte[tmp.length + offset];
@@ -80,32 +83,40 @@ public abstract class BaseProtocol
         }
         catch (IOException e)
         {
-            e.printStackTrace();
-            return null;
+            return responseStatus = ServerResponseStatus.IOException;
         }
 
-        return getResponse();
+        response = getResponse();
+        return getResponseStatus();
     } // query
 
-    protected byte[] getResponse()
+    protected String getResponse()
     {
-        response = new byte[65507];
+        byte[] response = new byte[65507];
         packet = new DatagramPacket(response, response.length);
         try
         {
             socket.receive(packet);
+            responseStatus = ServerResponseStatus.OK;
         }
         catch (SocketTimeoutException e)
         {
+            responseStatus = ServerResponseStatus.SocketTimeoutException;
             return null;
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            responseStatus = ServerResponseStatus.IOException;
             return null;
         }
-        return response;
+
+        return new String(response);
     } // getResponse
+
+    public ServerResponseStatus getResponseStatus()
+    {
+        return responseStatus;
+    }
 
     public abstract void updateServerInfo(GameServer server);
 } // BaseProtocol

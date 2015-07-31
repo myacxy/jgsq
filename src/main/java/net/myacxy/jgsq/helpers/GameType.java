@@ -1,4 +1,6 @@
-package net.myacxy.jgsq.model;
+package net.myacxy.jgsq.helpers;
+
+import net.myacxy.jgsq.helpers.ServerProtocolType;
 
 public enum GameType
 {

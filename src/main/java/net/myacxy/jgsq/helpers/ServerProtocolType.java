@@ -1,4 +1,4 @@
-package net.myacxy.jgsq.model;
+package net.myacxy.jgsq.helpers;
 
 public enum ServerProtocolType
 {

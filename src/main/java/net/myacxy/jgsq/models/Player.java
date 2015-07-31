@@ -1,4 +1,4 @@
-package net.myacxy.jgsq.model;
+package net.myacxy.jgsq.models;
 
 import com.google.gson.annotations.SerializedName;
 

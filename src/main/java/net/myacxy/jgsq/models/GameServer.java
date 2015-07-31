@@ -1,11 +1,9 @@
-package net.myacxy.jgsq.model;
+package net.myacxy.jgsq.models;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import net.myacxy.jgsq.protocol.BaseProtocol;
+import net.myacxy.jgsq.helpers.ServerResponseStatus;
+import net.myacxy.jgsq.protocols.BaseProtocol;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,18 +61,17 @@ public class GameServer
         parameters = new HashMap<>();
     }
 
-    public boolean connect()
+    public ServerResponseStatus connect()
     {
-        return ipAddress.length() > 0 && connect(ipAddress, port);
+        return connect(ipAddress, port);
     }
 
-    public boolean connect(String ipAddress, int port)
+    public ServerResponseStatus connect(String ipAddress, int port)
     {
         this.ipAddress = ipAddress;
         this.port = port;
 
-        protocol.connect(ipAddress, port);
-        return true;
+        return protocol.connect(ipAddress, port);
     }
 
     public void disconnect()
@@ -83,12 +80,16 @@ public class GameServer
         protocol.disconnect();
     }
 
-    public void update()
+    public ServerResponseStatus update()
     {
-        if(protocol.query("getstatus") != null)
+        if(protocol.getResponseStatus() == ServerResponseStatus.Connected)
         {
-            protocol.updateServerInfo(this);
+            if(protocol.query("getstatus") == ServerResponseStatus.OK)
+            {
+                protocol.updateServerInfo(this);
+            }
         }
+        return protocol.getResponseStatus();
     }
 
     public BaseProtocol getProtocol()
