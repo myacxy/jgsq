@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import net.myacxy.jgsq.models.Game;
 import net.myacxy.jgsq.helpers.ServerProtocolType;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 

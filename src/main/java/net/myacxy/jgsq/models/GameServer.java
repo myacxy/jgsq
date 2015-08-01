@@ -71,7 +71,12 @@ public class GameServer
         this.ipAddress = ipAddress;
         this.port = port;
 
-        return protocol.connect(ipAddress, port);
+        if(protocol.connect(ipAddress, port) == ServerResponseStatus.Connected)
+        {
+            this.ipAddress = protocol.ipAddress.getHostAddress();
+        }
+
+        return protocol.getResponseStatus();
     }
 
     public void disconnect()

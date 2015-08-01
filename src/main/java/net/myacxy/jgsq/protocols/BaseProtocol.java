@@ -21,8 +21,8 @@ public abstract class BaseProtocol
             "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
     protected String response;
-    protected String hostName;
-    protected InetAddress ipAddress;
+    protected String ipHostName;
+    public InetAddress ipAddress;
     protected int port;
     protected Game game;
     protected Map<String, String> parameters;
@@ -40,7 +40,7 @@ public abstract class BaseProtocol
     {
         try {
             ipAddress = InetAddress.getByName(ip);
-            hostName = ipAddress.getHostName();
+            ipHostName = ipAddress.getHostName();
             if(port != null) this.port = port;
             if(port < 0 || port > 65536) return responseStatus = ServerResponseStatus.IllegalArgumentException;
         } catch (UnknownHostException e) {

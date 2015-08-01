@@ -50,7 +50,8 @@ public class Quake3Test {
         {
             assertEquals(server.parameters.size(), 0);
 
-            server.update();
+            quake3Protocol.updateServerInfo(server);
+
             assertEquals(server.hostName, "v1.03");
             assertTrue(server.parameters.size() > 0);
             assertEquals(server.hostName, server.parameters.get("sv_hostname"));
