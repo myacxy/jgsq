@@ -38,7 +38,7 @@ gf.loadConfig(Utilities.getResourceAsStream("games.conf.json")); // load resourc
 Game q3 = gf.getGame("Quake 3"); // or "Q3" or "Quake III Arena"
 
 GameServerFactory gsf = new GameServerFactory();
-GameServer server = gsf.getServer(q3);
+GameServer server = gsf.getGameServer(q3);
 
 if(server.connect("127.0.0.1", 28960) == ServerResponseStatus.CONNECTED) // or domain.tld
 {
