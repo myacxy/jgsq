@@ -12,19 +12,19 @@ public class GameServerFactory
     {
         switch (game.serverProtocolType)
         {
-            case Ase:
+            case ASE:
                 throw new NotImplementedException();
-            case Doom3:
+            case DOOM3:
                 throw new NotImplementedException();
-            case GameSpy:
+            case GAME_SPY:
                 throw new NotImplementedException();
-            case GameSpy2:
+            case GAME_SPY2:
                 throw new NotImplementedException();
-            case HalfLife:
+            case HALF_LIFE:
                 throw new NotImplementedException();
-            case Source:
+            case SOURCE:
                 throw new NotImplementedException();
-            case Quake3:
+            case QUAKE3:
                 return new GameServer(game, new Quake3(game));
             default:
                 return null;

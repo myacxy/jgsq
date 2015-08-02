@@ -2,11 +2,11 @@ package net.myacxy.jgsq.helpers;
 
 public enum ServerResponseStatus
 {
-    Connected,
-    IllegalArgumentException,
-    IOException,
-    SocketException,
-    SocketTimeoutException,
+    CONNECTED,
+    ILLEGAL_ARGUMENT_EXCEPTION,
+    IO_EXCEPTION,
+    SOCKET_EXCEPTION,
+    SOCKET_TIMEOUT_EXCEPTION,
     OK,
-    UnknownHostException
+    UNKNOWN_HOST_EXCEPTION
 }

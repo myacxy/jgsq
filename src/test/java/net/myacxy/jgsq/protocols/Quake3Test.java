@@ -8,7 +8,6 @@ import net.myacxy.jgsq.models.GameServer;
 import net.myacxy.jgsq.models.Player;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -63,15 +62,15 @@ public class Quake3Test {
     {
         server = new GameServer(jk2, quake3Protocol);
         // valid address + wrong port
-        assertEquals(server.connect("myacxy.net", 28071), ServerResponseStatus.Connected);
+        assertEquals(server.connect("myacxy.net", 28071), ServerResponseStatus.CONNECTED);
         assertNotEquals(server.update(), ServerResponseStatus.OK);
 
         // valid address + port out of range
-        assertEquals(server.connect("myacxy.net", 99999), ServerResponseStatus.IllegalArgumentException);
-        assertEquals(server.update(), ServerResponseStatus.IllegalArgumentException);
+        assertEquals(server.connect("myacxy.net", 99999), ServerResponseStatus.ILLEGAL_ARGUMENT_EXCEPTION);
+        assertEquals(server.update(), ServerResponseStatus.ILLEGAL_ARGUMENT_EXCEPTION);
 
         // invalid address + valid port
-        assertEquals(server.connect("myacxy.netx", 28070), ServerResponseStatus.UnknownHostException);
+        assertEquals(server.connect("myacxy.netx", 28070), ServerResponseStatus.UNKNOWN_HOST_EXCEPTION);
     }
 
     @Test

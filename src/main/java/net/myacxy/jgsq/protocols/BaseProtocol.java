@@ -42,18 +42,18 @@ public abstract class BaseProtocol
             ipAddress = InetAddress.getByName(ip);
             ipHostName = ipAddress.getHostName();
             if(port != null) this.port = port;
-            if(port < 0 || port > 65536) return responseStatus = ServerResponseStatus.IllegalArgumentException;
+            if(port < 0 || port > 65536) return responseStatus = ServerResponseStatus.ILLEGAL_ARGUMENT_EXCEPTION;
         } catch (UnknownHostException e) {
-            return responseStatus = ServerResponseStatus.UnknownHostException;
+            return responseStatus = ServerResponseStatus.UNKNOWN_HOST_EXCEPTION;
         }
 
         try {
             socket = new DatagramSocket();
             socket.setSoTimeout(timeout);
         } catch (SocketException e) {
-            return responseStatus = ServerResponseStatus.SocketException;
+            return responseStatus = ServerResponseStatus.SOCKET_EXCEPTION;
         }
-        return responseStatus = ServerResponseStatus.Connected;
+        return responseStatus = ServerResponseStatus.CONNECTED;
     } // connect
 
     public void disconnect()
@@ -83,7 +83,7 @@ public abstract class BaseProtocol
         }
         catch (IOException e)
         {
-            return responseStatus = ServerResponseStatus.IOException;
+            return responseStatus = ServerResponseStatus.IO_EXCEPTION;
         }
 
         response = getResponse();
@@ -101,12 +101,12 @@ public abstract class BaseProtocol
         }
         catch (SocketTimeoutException e)
         {
-            responseStatus = ServerResponseStatus.SocketTimeoutException;
+            responseStatus = ServerResponseStatus.SOCKET_TIMEOUT_EXCEPTION;
             return null;
         }
         catch (IOException e)
         {
-            responseStatus = ServerResponseStatus.IOException;
+            responseStatus = ServerResponseStatus.IO_EXCEPTION;
             return null;
         }
 

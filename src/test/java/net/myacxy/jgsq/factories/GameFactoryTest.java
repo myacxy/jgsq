@@ -65,7 +65,7 @@ public class GameFactoryTest
         Game cod = factory.supportedGames.get("Call of Duty");
 
         assertEquals(jk2.abbreviatedName, "JK2");
-        assertEquals(jk2.serverProtocolType, ServerProtocolType.Quake3);
+        assertEquals(jk2.serverProtocolType, ServerProtocolType.QUAKE3);
         assertEquals(cod.defaultPort, 28960);
     }
 
@@ -74,7 +74,7 @@ public class GameFactoryTest
     {
         loadConfig();
 
-        assertTrue(factory.getSupportedGames(ServerProtocolType.Ase).size() == 0);
-        assertTrue(factory.getSupportedGames(ServerProtocolType.Quake3).size() == 3);
+        assertTrue(factory.getSupportedGames(ServerProtocolType.ASE).size() == 0);
+        assertTrue(factory.getSupportedGames(ServerProtocolType.QUAKE3).size() == 3);
     }
 } // GameFactoryTest

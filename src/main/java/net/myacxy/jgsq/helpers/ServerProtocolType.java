@@ -5,33 +5,33 @@ public enum ServerProtocolType
     /// <summary>
     /// The all seeing eye
     /// </summary>
-    Ase,
+    ASE,
     /// <summary>
     /// Doom3
     /// </summary>
-    Doom3,
+    DOOM3,
     /// <summary>
     /// Game Spy v1
     /// </summary>
-    GameSpy,
+    GAME_SPY,
     /// <summary>
     /// Game Spy v2
     /// </summary>
-    GameSpy2,
+    GAME_SPY2,
     /// <summary>
     /// Half Life and HL-Mods
     /// </summary>
-    HalfLife,
+    HALF_LIFE,
     /// <summary>
     /// Half Life Source
     /// </summary>
-    Source,
+    SOURCE,
     /// <summary>
     /// Quake3 and Q3-Mods
     /// </summary>
-    Quake3,
+    QUAKE3,
     /// <summary>
     /// Unknown
     /// </summary>
-    None
+    UNKNOWN
 }
