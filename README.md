@@ -23,7 +23,7 @@ Define supported games via JSON, e.g. `games.conf.json`
     "game"              : "Quake III Arena",
     "game_alternative"  : "Quake 3",
     "game_abbreviation" : "Q3",
-    "server_protocol"   : "Quake3",
+    "server_protocol"   : "QUAKE3",
     "default_port"      : 28960
   },
   ...
