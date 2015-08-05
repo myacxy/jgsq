@@ -5,8 +5,7 @@ import net.myacxy.jgsq.helpers.ServerResponseStatus;
 import net.myacxy.jgsq.protocols.BaseProtocol;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class GameServer
 {
@@ -35,7 +34,7 @@ public class GameServer
     @SerializedName("port")
     public int port;
     @SerializedName("parameters")
-    public Map<String, String> parameters;
+    public TreeMap<String, String> parameters;
     @SerializedName("rcon")
     public String rcon;
     @SerializedName("query_port")
@@ -49,7 +48,7 @@ public class GameServer
         this.protocol = protocol;
 
         players = new ArrayList<>();
-        parameters = new HashMap<>();
+        parameters = new TreeMap<>();
     }
 
     public GameServer(Game game, BaseProtocol protocol)
@@ -58,7 +57,7 @@ public class GameServer
         this.protocol = protocol;
 
         players = new ArrayList<>();
-        parameters = new HashMap<>();
+        parameters = new TreeMap<>();
     }
 
     public ServerResponseStatus connect()

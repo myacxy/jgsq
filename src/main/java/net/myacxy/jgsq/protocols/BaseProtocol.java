@@ -6,8 +6,7 @@ import net.myacxy.jgsq.models.GameServer;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 public abstract class BaseProtocol
@@ -25,7 +24,7 @@ public abstract class BaseProtocol
     public InetAddress ipAddress;
     protected int port;
     protected Game game;
-    protected Map<String, String> parameters;
+    protected TreeMap<String, String> parameters;
     protected int timeout = 1500;
     protected ServerResponseStatus responseStatus;
 
@@ -33,7 +32,7 @@ public abstract class BaseProtocol
     {
         this.game = game;
         pattern = Pattern.compile(IP_ADDRESS_PATTERN);
-        parameters = new HashMap<>();
+        parameters = new TreeMap<>();
     }
 
     public ServerResponseStatus connect(String ip, Integer port)
