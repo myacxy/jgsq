@@ -39,6 +39,8 @@ public class GameServer
     public String rcon;
     @SerializedName("query_port")
     public String queryPort;
+    @SerializedName("ping")
+    public int ping;
 
     public GameServer(Game game, String ipAddress, int port, BaseProtocol protocol)
     {

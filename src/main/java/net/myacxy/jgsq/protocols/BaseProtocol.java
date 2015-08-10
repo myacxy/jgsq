@@ -28,6 +28,9 @@ public abstract class BaseProtocol
     protected int timeout = 1500;
     protected ServerResponseStatus responseStatus;
 
+    protected long time;
+    protected long deltaTime;
+
     public BaseProtocol(Game game)
     {
         this.game = game;
@@ -78,6 +81,7 @@ public abstract class BaseProtocol
         packet = new DatagramPacket(buffer, buffer.length, ipAddress, port);
         try
         {
+            time = System.currentTimeMillis();
             socket.send(packet);
         }
         catch (IOException e)
@@ -96,6 +100,7 @@ public abstract class BaseProtocol
         try
         {
             socket.receive(packet);
+            deltaTime = System.currentTimeMillis() - time;
             responseStatus = ServerResponseStatus.OK;
         }
         catch (SocketTimeoutException e)
