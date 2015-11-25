@@ -1,5 +1,6 @@
 package net.myacxy.jgsq.models;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 public class Player
@@ -37,4 +38,11 @@ public class Player
     {
         return String.format("(%s, %s, %s)", score, ping, coloredName);
     }
-}
+
+    public String toJson()
+    {
+        return new GsonBuilder().setPrettyPrinting()
+                .create()
+                .toJson(this);
+    }
+} // Player

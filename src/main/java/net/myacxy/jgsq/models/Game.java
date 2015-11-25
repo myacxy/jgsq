@@ -1,5 +1,6 @@
 package net.myacxy.jgsq.models;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import net.myacxy.jgsq.helpers.ServerProtocolType;
 
@@ -56,5 +57,12 @@ public class Game
     public String toString()
     {
         return name;
+    }
+
+    public String toJson()
+    {
+        return new GsonBuilder().setPrettyPrinting()
+                .create()
+                .toJson(this);
     }
 } // Game

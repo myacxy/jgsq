@@ -1,5 +1,6 @@
 package net.myacxy.jgsq.models;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import net.myacxy.jgsq.helpers.ServerResponseStatus;
 import net.myacxy.jgsq.protocols.BaseProtocol;
@@ -101,5 +102,18 @@ public class GameServer
     public BaseProtocol getProtocol()
     {
         return protocol;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("(%s:%s, %s, %s)", ipAddress, String.valueOf(port), hostName, game);
+    }
+
+    public String toJson()
+    {
+        return new GsonBuilder().setPrettyPrinting()
+                .create()
+                .toJson(this);
     }
 } // GameServer
