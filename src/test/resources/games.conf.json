@@ -19,5 +19,12 @@
     "game_abbreviation" : "CoD",
     "server_protocol"   : "QUAKE3",
     "default_port"      : 28960
+  },
+  {
+    "game"              : "Counter-Strike: Global Offensive",
+    "game_alternative"  : "CS: GO",
+    "game_abbreviation" : "CSGO",
+    "server_protocol"   : "SOURCE",
+    "default_port"      : 27015
   }
 ]

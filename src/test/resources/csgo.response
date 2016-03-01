@@ -1,8 +1,7 @@
-ÿÿÿÿstatusResponse
+ï¿½ï¿½ï¿½ï¿½statusResponse
 \dmflags\0\fraglimit\0\timelimit\0\g_maxHolocronCarry\5\g_privateDuel\1\g_saberLocking\1\g_maxForceRank\200\duel_fraglimit\1\g_forceBasedTeams\1\g_duelWeaponDisable\65531\g_gametype\0\sv_hostname\^5-<(TFJ)>-^4FFA^71.03^7\sv_maxclients\24\sv_maxRate\20000\sv_minPing\0\sv_maxPing\500\sv_floodProtect\1\sv_allowAnonymous\1\sv_allowDownload\0\bot_minplayers\0\g_redteam\Rebellion\g_blueteam\Empire\g_weapondisable\65531\g_forcepowerdisable\0\g_forceRegenTime\0\capturelimit\4\g_maxGameClients\0\version\JK2MP: v1.03b linux-i386 May 15 2002\g_needpass\0\protocol\15\mapname\ffa_bespin\sv_privateClients\0\gamename\basejk\g_jediVmerc\0
 10 0 "^0zedi^1.^5bot"
 11 0 "^1acxy^1.^6bot"
 12 0 "^2nbv^1.^7bot"
 13 0 "^3majin^1.^8bot"
 13 0 "^4murx^1.^9bot"
-

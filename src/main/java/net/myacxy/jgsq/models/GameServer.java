@@ -91,7 +91,7 @@ public class GameServer
     {
         if(protocol.getResponseStatus() == ServerResponseStatus.CONNECTED)
         {
-            if(protocol.query("getstatus") == ServerResponseStatus.OK)
+            if(protocol.update() == ServerResponseStatus.OK)
             {
                 protocol.updateServerInfo(this);
             }

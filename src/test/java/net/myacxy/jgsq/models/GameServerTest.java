@@ -1,15 +1,12 @@
 package net.myacxy.jgsq.models;
 
 import net.myacxy.jgsq.factories.GameFactory;
-import net.myacxy.jgsq.factories.GameServerFactory;
-import net.myacxy.jgsq.protocols.BaseProtocol;
 import net.myacxy.jgsq.protocols.Quake3;
 import net.myacxy.jgsq.utils.Utilities;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +27,7 @@ public class GameServerTest {
         String fakeResponse = "";
 
         try {
-            URL resource = Utilities.class.getClassLoader().getResource("response.example");
+            URL resource = Utilities.class.getClassLoader().getResource("jk2.response");
             Path path = Paths.get(resource.getPath().substring(1));
             fakeResponse = new String(Files.readAllBytes(path));
         } catch (IOException e) {

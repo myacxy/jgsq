@@ -66,7 +66,7 @@ public abstract class BaseProtocol
         }
     }
 
-    public ServerResponseStatus query(String request)
+    protected ServerResponseStatus query(String request)
     {
         byte[] tmp = request.getBytes();
         int offset = 4;
@@ -122,7 +122,7 @@ public abstract class BaseProtocol
         return responseStatus;
     }
 
+    public abstract ServerResponseStatus update();
+
     public abstract void updateServerInfo(GameServer server);
 } // BaseProtocol
-
-

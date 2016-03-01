@@ -45,7 +45,7 @@ public class Quake3Test {
     {
         server = new GameServer(jk2, quake3Protocol);
         server.connect("myacxy.net", 28070);
-        if(quake3Protocol.query("getstatus") == ServerResponseStatus.OK)
+        if(quake3Protocol.update() == ServerResponseStatus.OK)
         {
             assertEquals(server.parameters.size(), 0);
 
@@ -79,7 +79,7 @@ public class Quake3Test {
         server = new GameServer(jk2, "85.25.149.26", 28070, quake3Protocol);
 
         try {
-            URL resource = Utilities.class.getClassLoader().getResource("response.example");
+            URL resource = Utilities.class.getClassLoader().getResource("jk2.response");
             Path path = Paths.get(resource.getPath().substring(1));
             quake3Protocol.response = new String(Files.readAllBytes(path));
         } catch (IOException e) {

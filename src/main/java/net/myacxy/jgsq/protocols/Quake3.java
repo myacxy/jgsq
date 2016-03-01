@@ -1,5 +1,6 @@
 package net.myacxy.jgsq.protocols;
 
+import net.myacxy.jgsq.helpers.ServerResponseStatus;
 import net.myacxy.jgsq.utils.Utilities;
 import net.myacxy.jgsq.models.Game;
 import net.myacxy.jgsq.models.GameServer;
@@ -19,6 +20,11 @@ public class Quake3 extends BaseProtocol
     {
         super(game);
         pattern = Pattern.compile(PLAYER_REGEX);
+    }
+
+    @Override
+    public ServerResponseStatus update() {
+        return query("getstatus");
     }
 
     @Override
@@ -66,7 +72,7 @@ public class Quake3 extends BaseProtocol
         server.coloredHostName = parameters.get("sv_hostname");
         server.hostName = Utilities.removeColorCode(server.coloredHostName);
         server.mapName = parameters.get("mapname");
-        server.isPasswordProtected = Boolean.parseBoolean(parameters.get("g_needpass"));
+        server.isPasswordProtected = Integer.parseInt(parameters.get("g_needpass")) == 1;
         server.maxClients = Integer.parseInt(parameters.get("sv_maxclients"));
         server.currentClients = server.players.size();
     } // updateParameters
