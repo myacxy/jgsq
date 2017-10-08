@@ -2,7 +2,7 @@ package net.myacxy.jgsq.models;
 
 import net.myacxy.jgsq.factories.GameFactory;
 import net.myacxy.jgsq.protocols.Quake3;
-import net.myacxy.jgsq.utils.Utilities;
+import net.myacxy.jgsq.utils.ResourceUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GameServerTest {
 
@@ -23,11 +23,11 @@ public class GameServerTest {
     {
         GameFactory gf = new GameFactory();
         Game jk2 = gf.getGame("JK2");
-        gf.loadConfig(Utilities.getResourceAsStream("games.conf.json"));
+        gf.loadConfig(ResourceUtil.getResourceAsStream("games.conf.json"));
         String fakeResponse = "";
 
         try {
-            URL resource = Utilities.class.getClassLoader().getResource("jk2.response");
+            URL resource = getClass().getClassLoader().getResource("jk2.response");
             Path path = Paths.get(resource.getPath().substring(1));
             fakeResponse = new String(Files.readAllBytes(path));
         } catch (IOException e) {

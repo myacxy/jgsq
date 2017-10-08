@@ -1,26 +1,24 @@
 package net.myacxy.jgsq.factories;
 
-import net.myacxy.jgsq.utils.Utilities;
-import net.myacxy.jgsq.models.Game;
 import net.myacxy.jgsq.helpers.ServerProtocolType;
+import net.myacxy.jgsq.models.Game;
+import net.myacxy.jgsq.utils.ResourceUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class GameFactoryTest
-{
+public class GameFactoryTest {
+
     private GameFactory factory;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         factory = new GameFactory();
     }
 
     @Test
-    public void testGetGame()
-    {
+    public void testGetGame() {
         loadConfig();
 
         Game jk2 = factory.getGame("JK2");
@@ -54,10 +52,9 @@ public class GameFactoryTest
     }
 
     @Test
-    public void loadConfig()
-    {
+    public void loadConfig() {
         String fileName = "games.conf.json";
-        factory.supportedGames = factory.loadConfig(Utilities.getResourceAsStream(fileName));
+        factory.supportedGames = factory.loadConfig(ResourceUtil.getResourceAsStream(fileName));
 
         assertEquals(factory.supportedGames.size(), 3);
 
@@ -70,8 +67,7 @@ public class GameFactoryTest
     }
 
     @Test
-    public void getSupportedGames()
-    {
+    public void getSupportedGames() {
         loadConfig();
 
         assertTrue(factory.getSupportedGames(ServerProtocolType.ASE).size() == 0);

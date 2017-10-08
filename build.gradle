@@ -5,15 +5,12 @@ sourceCompatibility = 1.7
 version = '0.1'
 group = 'net.myacxy'
 
-wrapper {
-    gradleVersion = '2.9'
-}
-
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
+    compile 'com.google.code.gson:gson:2.8.0'
+    testCompile group: 'org.apache.mina', name: 'mina-core', version: '2.0.15'
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile 'com.google.code.gson:gson:2.4'
 }
